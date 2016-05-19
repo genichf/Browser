@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Browser";
+}
+
+<h2>Browser</h2>
+
+<div ng-controller="BrowseController">
+    <div class="table-responsive">
+        <table class="table-condensed">
+            <caption class="my-caption">
+                Count of files in current directory and subdirectories by file size:
+            </caption>
+                <tr class="my-head-tr">
+                    <td>Less 10Mb</td>
+                    <td>10Mb-50Mb</td>
+                    <td>More 100Mb</td>
+                </tr>
+                <tr class="my-body-tr">
+                    <td>{{less10Mb}}</td>
+                    <td>{{more10less50Mb}}</td>
+                    <td>{{more100Mb}}</td>
+                </tr>
+        </table>
+    </div>
+
+    <span><b>Hard disks:&nbsp;</b></span>
+    <span ng-repeat="drive in model.Drives">
+            <a href="" id="{{drive.Name}}" ng-click='clickToPath("http://localhost:9298/api/browse?path=" + drive.Name)'>
+                <span ng-if="drive.Name == model.CurrentDrive.Name"><b>{{drive.Name}}</b>&nbsp;</span>
+                <span ng-if="drive.Name != model.CurrentDrive.Name">{{drive.Name}}&nbsp;</span>
+            </a>
+    </span>
+    
+    <div><b>Current path:&nbsp;</b>{{model.CurrentDirectory.Path}}</div>
+
+    <div>
+        <a ng-if="model.ParentDirectory" href="" id="{{model.ParentDirectory.Name}}" ng-click='clickToPath("http://localhost:9298/api/browse?path=" + model.ParentDirectory.Path)'>..</a>
+    </div>
+
+    <div ng-repeat="dir in model.Directories">
+        <a href="" id="{{dir.Name}}" ng-click='clickToPath("http://localhost:9298/api/browse?path=" + dir.Path)'>{{dir.Name}}</a>
+    </div>
+
+    <div ng-repeat="file in model.Files">
+        <a href="{{file.Path}}">{{file.Name}}</a>
+    </div>
+
+</div>
+
